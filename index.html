@@ -115,6 +115,8 @@
             position: relative; background-color: #ffffff;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform-origin: center center;
+            flex-shrink: 0;
         }
 
         .slide {
@@ -2593,7 +2595,19 @@
             }
         });
 
-        window.addEventListener('DOMContentLoaded', loadMonolithicPresentation);
-    </script>
+        function fitPresentationToScreen() {
+            const container = document.getElementById('presentation-container');
+            if (!container) return;
+            const scaleX = window.innerWidth / 1024;
+            const scaleY = window.innerHeight / 576;
+            const scale = Math.min(scaleX, scaleY);
+            container.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', fitPresentationToScreen);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMonolithicPresentation();
+            fitPresentationToScreen();
+        });    </script>
 </body>
 </html>
